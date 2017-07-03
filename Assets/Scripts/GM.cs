@@ -10,6 +10,7 @@ public class GM : MonoBehaviour {
 	public static GameObject tempPerson;
 
 	private bool isEditMode = false;
+	private bool enemyChosen = false;
 
 	public GameObject player;
 	public Camera cam;
@@ -17,6 +18,7 @@ public class GM : MonoBehaviour {
 	public Text inputLog;
 	public InputField mainInput;
 	public GameObject cheatSheet;
+	public GameObject[] people;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +26,20 @@ public class GM : MonoBehaviour {
 		mainText.text = "";
 		inputLog.text = "";
 		Cursor.lockState = CursorLockMode.Confined;
+		people = GameObject.FindGameObjectsWithTag ("Person");
+
+		int enemyIndex;
+		do {
+			enemyIndex = UnityEngine.Random.Range (0, people.Length - 1);
+			Person personScript = people [enemyIndex].GetComponent<Person> ();
+
+			if (!personScript.isQuest) {
+				personScript.isEnemy = true;
+				enemyChosen = true;
+				Murderer.murderString = personScript.pString;
+			}
+		} while(enemyChosen == false);
+		Debug.Log("Hint: The killer is " + people[enemyIndex].name);
 	}
 	
 	// Update is called once per frame
@@ -155,6 +171,8 @@ public class GM : MonoBehaviour {
 					UpdateLog("Arguments for replace() has to be a 'char'!");
 					break;
 				}
+				argument1 = argument1.Trim();
+				argument2 = argument2.Trim();
 				char tempChar1 = char.Parse(argument1);
 				char tempChar2 = char.Parse(argument2);
 				UpdateLog(tempPerson.GetComponent<Person>().pReplace(tempChar1,tempChar2));

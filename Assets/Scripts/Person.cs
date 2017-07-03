@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Person : MonoBehaviour {
 
@@ -8,6 +9,12 @@ public class Person : MonoBehaviour {
 	public int maxCharAmount;
 	public bool isEnemy = false;
 	public bool isQuest = false;
+
+	//Variables involving textMesh 
+	public TextMesh personText;
+	private bool lengthShown = false;
+	public List<bool> shownChars;
+	public List<char> currentChars;
 
 	//private Person[] people; //For implementing non similar strings and choosing one as murderer
 	private Material personMat;
@@ -32,8 +39,20 @@ public class Person : MonoBehaviour {
 
 		UpdatePerson();
 
-		if (isEnemy) {
-			Murderer.murderString = pString;
+		if (GetComponent<QuestPerson> () != null) {
+			isQuest = true;
+		}
+
+		if (!isQuest) {
+			personText.text = "?";
+		}
+
+		shownChars = new List<bool>();
+		currentChars = new List<char>();
+		for (int i = 0; i < pString.Length; i++) {
+			shownChars.Add(false);
+			currentChars.Add('?');
+			//Debug.Log (currentChars [i]);
 		}
 	}
 
@@ -87,6 +106,37 @@ public class Person : MonoBehaviour {
 		}
 	}
 
+	public void UpdateText(){
+		if (!isQuest) {
+			string tempString = "";
+
+			//Change the characters to be shown
+			for (int i = 0; i < pString.Length; i++) {
+				if (shownChars [i] == true) {
+					currentChars [i] = pString [i];
+				}
+			}
+
+			if (lengthShown) {
+				foreach (char c in currentChars) {
+					tempString = tempString + c;
+				}
+				//personText.text = new string ('?', pString.Length);
+			} else {
+				foreach (char c in currentChars) {
+					if (c != '?') {
+						tempString = tempString + c;
+					}
+				}
+			}
+
+			personText.text = tempString;
+		}
+
+		//
+
+		//Create a new string to change personText.text to
+	}
 
 	/** 
 	 * Whole chunk of code of functions that will change Person's characteristics based on user input
@@ -94,29 +144,37 @@ public class Person : MonoBehaviour {
 
 	public string pLowerCase (){
 		pString = pString.ToLower();
-		//Debug.Log (transform.name + " String: " + pString);
+		UpdateText();
 		UpdatePerson ();
 		return (transform.name + " is now in lower case");
 	}
 
 	public string pUpperCase (){
 		pString = pString.ToUpper();
-		//Debug.Log (transform.name + " String: " + pString);
+		UpdateText ();
 		UpdatePerson ();
 		return (transform.name + " is now in upper case");
 	}
 
 	public string pCharAt(int index){
+		shownChars [index] = true;
+		UpdateText ();
 		return ("Char at " + transform.name + "[" + index + "] is " + pString [index]);
 	}
 
 	public string pConcat(string str){
 		pString += str;
+		for (int i = 0; i < str.Length; i++){
+			shownChars.Add (true);
+			currentChars.Add (str [i]);
+		}
+		UpdateText ();
 		UpdatePerson ();
 		return ("Adding " + str + " to " + transform.name);
 	}
 
 	public string pContains(string str){
+		//TODO: UPDATE TEXT?
 		return (transform.name + " contains " + str + "?" + " " + pString.Contains(str));
 	}
 
@@ -158,17 +216,26 @@ public class Person : MonoBehaviour {
 	}*/
 
 	public string pLength(){
+		lengthShown = true;
+		UpdateText ();
 		return (transform.name + "'s length is " + pString.Length);
 	}
 
 	public string pReplace(char oldChar, char newChar){
 		pString = pString.Replace (oldChar, newChar);
+		UpdateText ();
 		UpdatePerson ();
 		return ("Replaced " + oldChar + " with " + newChar + " in " + transform.name);
 	}
 
 	public string pSubstring(int startIndex, int endIndex){
+		shownChars.RemoveRange (endIndex, pString.Length - endIndex);
+		shownChars.RemoveRange (0, startIndex);
+		currentChars.RemoveRange (endIndex, pString.Length - endIndex);
+		currentChars.RemoveRange (0, startIndex);
+
 		pString = pString.Substring (startIndex, (endIndex-startIndex));
+		UpdateText ();
 		UpdatePerson ();
 		return ("Substring of " + transform.name + " from " + startIndex + " to " + endIndex);
 	}
