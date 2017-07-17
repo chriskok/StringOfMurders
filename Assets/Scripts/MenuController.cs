@@ -12,6 +12,8 @@ public class MenuController : MonoBehaviour {
 
 	public void StartButton(){
 		SceneManager.LoadScene (1);
+		GM.currentScene = 1;
+		GM.resetFunctionUsage ();
 	}
 
 	public void InstructionsButton(){

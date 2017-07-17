@@ -8,9 +8,11 @@ public class GM : MonoBehaviour {
 
 	[SerializeField]
 	public static GameObject tempPerson;
+	public static int currentScene = 0;
 
 	private bool isEditMode = false;
 	private bool enemyChosen = false;
+	private TutManager TM;
 
 	public GameObject player;
 	public Camera cam;
@@ -19,6 +21,16 @@ public class GM : MonoBehaviour {
 	public InputField mainInput;
 	public GameObject cheatSheet;
 	public GameObject[] people;
+
+	//Variables for function use
+	public static int charAtUsed = 0;
+	public static int containsUsed = 0;
+	public static int concatUsed = 0;
+	public static int toLowerCaseUsed = 0;
+	public static int toUpperCaseUsed = 0;
+	public static int lengthUsed = 0;
+	public static int replaceUsed = 0;
+	public static int substringUsed = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -40,6 +52,14 @@ public class GM : MonoBehaviour {
 			}
 		} while(enemyChosen == false);
 		Debug.Log("Hint: The killer is " + people[enemyIndex].name);
+
+		currentScene = SceneManager.GetActiveScene ().buildIndex;
+		Debug.Log ("Current scene: " + currentScene);
+		if (currentScene == 1) {
+			TM = GameObject.FindGameObjectWithTag ("TM").GetComponent<TutManager>(); 
+			TM.enemyIndex = enemyIndex;
+			TM.runTutorial ();
+		}
 	}
 	
 	// Update is called once per frame
@@ -102,14 +122,20 @@ public class GM : MonoBehaviour {
 			switch (inputSub) {
 			case "toLowerCase":
 				UpdateLog(tempPerson.GetComponent<Person>().pLowerCase());  
+				toLowerCaseUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "toUpperCase":
 				UpdateLog(tempPerson.GetComponent<Person>().pUpperCase()); 
+				toUpperCaseUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "charAt":
 				UpdateLog(tempPerson.GetComponent<Person>().pCharAt(int.Parse(arguments))); 
+				charAtUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "contains":
@@ -123,6 +149,8 @@ public class GM : MonoBehaviour {
 					break;
 				}
 				UpdateLog(tempPerson.GetComponent<Person>().pContains(arguments)); 
+				containsUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "equals":
@@ -130,7 +158,18 @@ public class GM : MonoBehaviour {
 					if (tempPerson.GetComponent<Person>().isEnemy == true){
 						Debug.Log("Game over, you win!"); 
 						UpdateLog("Game over, you win!"); 
-						SceneManager.LoadScene(0);
+						switch (currentScene){
+						case 1: 
+							resetFunctionUsage();
+							SceneManager.LoadScene(2);
+							currentScene = 2; 
+							break;
+						case 2: 
+							resetFunctionUsage();
+							SceneManager.LoadScene(0);
+							currentScene = 0;
+							break;
+						}
 					} else{
 						Debug.Log("Sad lyfe, you've got the wrong guy!");
 						UpdateLog("Sad lyfe, you've got the wrong guy!");
@@ -143,6 +182,8 @@ public class GM : MonoBehaviour {
 
 			case "length":
 				UpdateLog(tempPerson.GetComponent<Person>().pLength());
+				lengthUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "concat":
@@ -154,6 +195,8 @@ public class GM : MonoBehaviour {
 					break;
 				}
 				UpdateLog(tempPerson.GetComponent<Person>().pConcat(arguments));
+				concatUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "replace":
@@ -176,10 +219,14 @@ public class GM : MonoBehaviour {
 				char tempChar1 = char.Parse(argument1);
 				char tempChar2 = char.Parse(argument2);
 				UpdateLog(tempPerson.GetComponent<Person>().pReplace(tempChar1,tempChar2));
+				replaceUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "substring":
 				UpdateLog(tempPerson.GetComponent<Person>().pSubstring(int.Parse(argument1),int.Parse(argument2))); 
+				substringUsed++;
+				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "cancel":
@@ -218,5 +265,22 @@ public class GM : MonoBehaviour {
 		} else {
 			cheatSheet.SetActive (false);
 		}
+	}
+
+	public static void resetFunctionUsage(){
+		Debug.Log ("Functions reset!");
+		charAtUsed = 0;
+		containsUsed = 0;
+		concatUsed = 0;
+		toLowerCaseUsed = 0;
+		toUpperCaseUsed = 0;
+		lengthUsed = 0;
+		replaceUsed = 0;
+		substringUsed = 0;
+	}
+
+	public static void printFunctionUsage(){
+		Debug.Log ("charAt: " + charAtUsed + "\ncontains: " + containsUsed + "\nconcat: " + concatUsed + "\ntoLower: " + toLowerCaseUsed + "\ntoUpper: " + 
+			toUpperCaseUsed + "\nlength: " + lengthUsed + "\nreplace: " + replaceUsed + "\nsubstring: " + substringUsed);
 	}
 }
