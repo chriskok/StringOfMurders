@@ -123,19 +123,16 @@ public class GM : MonoBehaviour {
 			case "toLowerCase":
 				UpdateLog(tempPerson.GetComponent<Person>().pLowerCase());  
 				toLowerCaseUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "toUpperCase":
 				UpdateLog(tempPerson.GetComponent<Person>().pUpperCase()); 
 				toUpperCaseUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "charAt":
 				UpdateLog(tempPerson.GetComponent<Person>().pCharAt(int.Parse(arguments))); 
 				charAtUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "contains":
@@ -150,7 +147,6 @@ public class GM : MonoBehaviour {
 				}
 				UpdateLog(tempPerson.GetComponent<Person>().pContains(arguments)); 
 				containsUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "equals":
@@ -183,7 +179,6 @@ public class GM : MonoBehaviour {
 			case "length":
 				UpdateLog(tempPerson.GetComponent<Person>().pLength());
 				lengthUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "concat":
@@ -196,7 +191,6 @@ public class GM : MonoBehaviour {
 				}
 				UpdateLog(tempPerson.GetComponent<Person>().pConcat(arguments));
 				concatUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "replace":
@@ -220,13 +214,11 @@ public class GM : MonoBehaviour {
 				char tempChar2 = char.Parse(argument2);
 				UpdateLog(tempPerson.GetComponent<Person>().pReplace(tempChar1,tempChar2));
 				replaceUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "substring":
 				UpdateLog(tempPerson.GetComponent<Person>().pSubstring(int.Parse(argument1),int.Parse(argument2))); 
 				substringUsed++;
-				if (currentScene == 1) TM.stageChanger();
 				break;
 
 			case "cancel":
@@ -246,6 +238,9 @@ public class GM : MonoBehaviour {
 			mainInput.gameObject.SetActive(false);
 			mainText.text = "";
 			isEditMode = false;
+
+			//Call the stage changer if the scene is tutorial
+			if (currentScene == 1) TM.stageChanger();
 
 		} catch (Exception e){
 			UpdateLog("Invalid input, try again!");

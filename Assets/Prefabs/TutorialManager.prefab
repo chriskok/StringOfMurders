@@ -43,7 +43,28 @@ MonoBehaviour:
   enemyIndex: 0
   sortedIndex: 
   stage: 0
+  player: {fileID: 0}
   playerText: {fileID: 0}
+  textIndex: 00000000040000000600000006000000
+  sentences:
+  - 'Welcome to the world of Strings. '
+  - In this world, every person has his/her own String attached to them.
+  - 'You have a super power allowing you to change and view the details of their Strings. '
+  - Start by trying to change them using the toLowerCase(), toUpperCase(), substring(),
+    and replace() functions by clicking on these people and typing out the function
+    you want.
+  - 'Great! Now try to view the details of the Strings of the people behind you using
+    the charAt(), length(), and contains() functions. '
+  - 'Remember, you can always look at the cheat sheet if you need help. '
+  - 'Now that you know what most of the functions do, find the murderer by completing
+    the tasks and using the functions. To accuse someone, use equals(Murderer). Good
+    luck! '
+  tutText: {fileID: 0}
+  tutUI:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
