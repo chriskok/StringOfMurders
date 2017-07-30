@@ -9,8 +9,8 @@ public class GM : MonoBehaviour {
 	[SerializeField]
 	public static GameObject tempPerson;
 	public static int currentScene = 0;
+	public static bool isEditMode = false;
 
-	private bool isEditMode = false;
 	private bool enemyChosen = false;
 	private TutManager TM;
 
@@ -21,6 +21,7 @@ public class GM : MonoBehaviour {
 	public InputField mainInput;
 	public GameObject cheatSheet;
 	public GameObject[] people;
+	public GameObject[] gameOverScreen;
 
 	//Variables for function use
 	public static int charAtUsed = 0;
@@ -31,9 +32,10 @@ public class GM : MonoBehaviour {
 	public static int lengthUsed = 0;
 	public static int replaceUsed = 0;
 	public static int substringUsed = 0;
+	public static int equalsUsed = 0;
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
 		mainInput.gameObject.SetActive(false);
 		mainText.text = "";
 		inputLog.text = "";
@@ -54,11 +56,17 @@ public class GM : MonoBehaviour {
 		Debug.Log("Hint: The killer is " + people[enemyIndex].name);
 
 		currentScene = SceneManager.GetActiveScene ().buildIndex;
-		Debug.Log ("Current scene: " + currentScene);
+		//Debug.Log ("Current scene: " + currentScene);
 		if (currentScene == 1) {
 			TM = GameObject.FindGameObjectWithTag ("TM").GetComponent<TutManager>(); 
 			TM.enemyIndex = enemyIndex;
 			TM.runTutorial ();
+		}
+
+		if (gameOverScreen.Length > 0) {
+			foreach (GameObject obj in gameOverScreen) {
+				obj.SetActive (false);
+			}
 		}
 	}
 	
@@ -152,28 +160,30 @@ public class GM : MonoBehaviour {
 			case "equals":
 				if (arguments.Contains("urderer")){
 					if (tempPerson.GetComponent<Person>().isEnemy == true){
-						Debug.Log("Game over, you win!"); 
-						UpdateLog("Game over, you win!"); 
+						//Debug.Log("Game over, you win!"); 
+						//UpdateLog("Game over, you win!"); 
 						switch (currentScene){
 						case 1: 
 							resetFunctionUsage();
-							SceneManager.LoadScene(2);
-							currentScene = 2; 
+							TM.stageChanger();
 							break;
 						case 2: 
 							resetFunctionUsage();
-							SceneManager.LoadScene(0);
-							currentScene = 0;
+							foreach (GameObject obj in gameOverScreen) {
+								obj.SetActive (true);
+							}
+							isEditMode = true; //Stop user for clicking to edit
 							break;
 						}
 					} else{
-						Debug.Log("Sad lyfe, you've got the wrong guy!");
-						UpdateLog("Sad lyfe, you've got the wrong guy!");
+						Debug.Log("You've got the wrong guy!");
+						UpdateLog("You've got the wrong guy!");
 					}
 				} else {
 					Debug.Log("Invalid argument (in the future you can check if people are twins, not yet thoo!)");
-					UpdateLog("Invalid argument; only equals(Murderer);");
+					UpdateLog("Invalid argument, use equals(Murderer);");
 				}
+				equalsUsed++;
 				break;
 
 			case "length":
@@ -225,7 +235,7 @@ public class GM : MonoBehaviour {
 				break;
 
 			default:
-				UpdateLog ("WRONG INPUT BRUV!");
+				UpdateLog ("Invalid input, please try again.");
 				break;
 			}
 
@@ -263,7 +273,7 @@ public class GM : MonoBehaviour {
 	}
 
 	public static void resetFunctionUsage(){
-		Debug.Log ("Functions reset!");
+		//Debug.Log ("Functions reset!");
 		charAtUsed = 0;
 		containsUsed = 0;
 		concatUsed = 0;
@@ -272,10 +282,17 @@ public class GM : MonoBehaviour {
 		lengthUsed = 0;
 		replaceUsed = 0;
 		substringUsed = 0;
+		equalsUsed = 0;
 	}
 
 	public static void printFunctionUsage(){
 		Debug.Log ("charAt: " + charAtUsed + "\ncontains: " + containsUsed + "\nconcat: " + concatUsed + "\ntoLower: " + toLowerCaseUsed + "\ntoUpper: " + 
-			toUpperCaseUsed + "\nlength: " + lengthUsed + "\nreplace: " + replaceUsed + "\nsubstring: " + substringUsed);
+			toUpperCaseUsed + "\nlength: " + lengthUsed + "\nreplace: " + replaceUsed + "\nsubstring: " + substringUsed + "\nequals: " + equalsUsed);
+	}
+
+	public void GameOverButton(){
+		isEditMode = true;
+		SceneManager.LoadScene(0);
+		currentScene = 0;
 	}
 }

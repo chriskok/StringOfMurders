@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 457912}
-  - 114: {fileID: 11416596}
+  - component: {fileID: 457912}
+  - component: {fileID: 11416596}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: TM
@@ -28,6 +28,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11416596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -45,26 +46,30 @@ MonoBehaviour:
   stage: 0
   player: {fileID: 0}
   playerText: {fileID: 0}
-  textIndex: 00000000040000000600000006000000
   sentences:
-  - 'Welcome to the world of Strings. '
-  - In this world, every person has his/her own String attached to them.
-  - 'You have a super power allowing you to change and view the details of their Strings. '
-  - Start by trying to change them using the toLowerCase(), toUpperCase(), substring(),
-    and replace() functions by clicking on these people and typing out the function
-    you want.
-  - 'Great! Now try to view the details of the Strings of the people behind you using
-    the charAt(), length(), and contains() functions. '
-  - 'Remember, you can always look at the cheat sheet if you need help. '
+  - 'Welcome to the world of strings. '
+  - In this world, every person has his/her own string attached to them.
+  - 'You have a super power allowing you to change and view the details of their strings. '
+  - "Start by trying to change them using the functions: \n1. toLowerCase(), \n2.
+    toUpperCase(), \n3. substring(), and \n4. replace() "
+  - Remember, you can always look at the cheat sheet if you need help and use the
+    cancel() function to exit the prompt.
+  - 'Great! Noticed how they changed? More characters make them taller, more vowels
+    make them redder and more uppercases make them wider. '
+  - 'Now try to view the details of the Strings of the people behind you using the
+    charAt(), length(), and contains() functions. '
+  - One of them is the murderer. Once you find a person's string that matches the
+    murderer's, use NAME.equals(murderer) to accuse them.
   - 'Now that you know what most of the functions do, find the murderer by completing
-    the tasks and using the functions. To accuse someone, use equals(Murderer). Good
-    luck! '
+    the tasks and using the functions. Good luck! '
   tutText: {fileID: 0}
   tutUI:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  textIndex: 00000000050000000800000008000000
+  typingSpeed: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

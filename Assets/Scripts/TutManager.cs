@@ -20,6 +20,7 @@ public class TutManager : MonoBehaviour {
 	private Queue<string> sentenceQueue;
 	public Text tutText; 
 	public GameObject[] tutUI;
+	[Tooltip("Start index of the text for each stage")]
 	public int[] textIndex; 
 	public float typingSpeed;
 
@@ -31,10 +32,15 @@ public class TutManager : MonoBehaviour {
 		//Run through all the people, change their shown chars and update their text
 		//Change some specifically to show all characters
 		int count = 0;
+		int enemyIndex = -1;
 		for (int i = 0; i < GMScript.people.Length; i++) {
 			Person currentScript = GMScript.people [i].GetComponent<Person> ();	
 			//Skip this person if QuestPerson or Enemy
-			if (currentScript.isQuest || i == enemyIndex) {
+			if (currentScript.isEnemy){
+				enemyIndex = i;
+				continue;
+			}
+			if (currentScript.isQuest) {
 				continue;
 			}
 
@@ -51,6 +57,7 @@ public class TutManager : MonoBehaviour {
 				sortedIndex.Add (i);
 			}
 		}
+		sortedIndex.Add (enemyIndex);
 
 		foreach (GameObject obj in tutUI) {
 			obj.SetActive (false);
@@ -78,28 +85,32 @@ public class TutManager : MonoBehaviour {
 		stage = 2;
 
 		//Teleport the rest of the people behind players line of sight
-		int xVal = -4;
-		for (int i = 4; i < 7; i++) {
+		int xVal = -6;
+		for (int i = 4; i < 8; i++) {
 			GameObject tempPerson = GMScript.people [sortedIndex[i]];	
-			tempPerson.transform.position = new Vector3 (xVal, 3, -5); 
+			tempPerson.transform.position = new Vector3 (xVal, 3, -7); 
 			Quaternion rot = Quaternion.Euler (0, 180, 0);
 			tempPerson.transform.rotation = rot;
 			xVal += 4;
 		}
+
+		Murderer.shownString = Murderer.murderString;
 	}
 
 	public void stageChanger(){
 		if (stage == 1 && GM.toLowerCaseUsed > 0 && GM.toUpperCaseUsed > 0 && GM.substringUsed > 0 && GM.replaceUsed > 0) {
-			Debug.Log ("Stage two begun");
 			StartInstructions (textIndex[1], textIndex[2]-1);
 		} 
-		if (stage == 2 && GM.lengthUsed > 0 && GM.charAtUsed > 0 && GM.containsUsed > 0) {
+			
+		if (stage == 2 && GM.equalsUsed > 0) {
 			StartInstructions (textIndex[2], textIndex[3]); 
 		}
 	}
 
 	public void StartInstructions (int startIndex, int endIndex)
 	{
+		GM.isEditMode = true;
+
 		//Turn on all necessary UI for the tutorial instructions 
 		foreach (GameObject obj in tutUI) {
 			obj.SetActive (true);
@@ -145,6 +156,8 @@ public class TutManager : MonoBehaviour {
 
 	void EndInstructions()
 	{
+		GM.isEditMode = false;
+
 		playerMovementScript.enabled = true;
 
 		foreach (GameObject obj in tutUI) {
@@ -160,6 +173,7 @@ public class TutManager : MonoBehaviour {
 			break;
 		case 2:
 			SceneManager.LoadScene (2);
+			GM.currentScene = 2;
 			break;
 		}
 	}

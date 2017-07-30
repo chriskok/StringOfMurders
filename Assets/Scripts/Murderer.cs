@@ -9,7 +9,7 @@ public class Murderer : MonoBehaviour {
 
 	void Start (){
 		murderText.text = "?";
-		shownString = "";
+		shownString = "?";
 	}
 
 	void Update(){

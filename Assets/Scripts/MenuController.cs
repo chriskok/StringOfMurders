@@ -11,11 +11,18 @@ public class MenuController : MonoBehaviour {
 	public GameObject[] instructPeople;
 
 	public void StartButton(){
+		SceneManager.LoadScene (2);
+		GM.currentScene = 2;
+		GM.resetFunctionUsage ();
+	}
+
+	public void TutorialButton(){
 		SceneManager.LoadScene (1);
 		GM.currentScene = 1;
 		GM.resetFunctionUsage ();
 	}
 
+	//For the previous implementation of instructions
 	public void InstructionsButton(){
 		ResetScreen ();
 
