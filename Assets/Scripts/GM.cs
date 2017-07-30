@@ -35,7 +35,7 @@ public class GM : MonoBehaviour {
 	public static int equalsUsed = 0;
 
 	// Use this for initialization
-	void OnEnable () {
+	void Start() {
 		mainInput.gameObject.SetActive(false);
 		mainText.text = "";
 		inputLog.text = "";
@@ -291,7 +291,7 @@ public class GM : MonoBehaviour {
 	}
 
 	public void GameOverButton(){
-		isEditMode = true;
+		isEditMode = false;
 		SceneManager.LoadScene(0);
 		currentScene = 0;
 	}
