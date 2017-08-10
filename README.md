@@ -5,6 +5,16 @@ A game project to help students learn Java coding syntax.
 
 Specifically java string functions for now. The user will attempt to solve a murder mystery using his super power of changing and viewing the strings attached to each person in the game world. 
 
+--- 
+
+## Installation 
+
+1. Download the zip file here: https://drive.google.com/file/d/0ByZQ9x0S04LtNHpidmZPUGYzeDg/view?usp=sharing
+
+2. Unzip the file. 
+
+3. Run the .exe file and follow the tutorial.
+
 ---
 
 ## Screenshots
