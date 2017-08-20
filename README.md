@@ -9,7 +9,7 @@ Specifically java string functions for now. The user will attempt to solve a mur
 
 ## Installation 
 
-1. Download the zip file here: https://drive.google.com/file/d/0ByZQ9x0S04LtNHpidmZPUGYzeDg/view?usp=sharing
+1. Download the zip file here: [Google Drive Link](https://drive.google.com/file/d/0ByZQ9x0S04LtNHpidmZPUGYzeDg/view?usp=sharing)
 
 2. Unzip the file. 
 
@@ -46,9 +46,24 @@ The game will visibly show the result of the function call as well as update the
 
 ---
 
+## Lessons Learnt
+
+### Visualization 
+- [Mr Gustavo](https://www.cs.purdue.edu/people/grr) made a strong suggestion, when choosing to teach about programming concepts, we should keep in mind that visualization is the most helpful thing beyond reading and listening. For future updates, we should always try to help the player visualize as much as possible from the gameplay presented.
+
+### Dynamic Gameplay
+- We could use with much more movement from the characters in the world as well as the quest dialogues. Currently too static and lacking liveliness. 
+- Also lacks difficulty (in reference to function usage mentioned earlier).
+
+### Minor Details
+- We should arrange our game objects in the future based on their function, especially if we're making them all randomized based on function later on. For example, our people had to be arranged a second time in efficient but confusing way for people who doesn't know what the values mean. 
+- Make the rules much clearer, taking out unnecessary details. 
+
+---
+
 ## Contributors
 
-- Christopher Kok Kye Shyang <ckok@purdue.edu> 
+- Christopher Kok Kye Shyang (<ckok@purdue.edu>)
 
 ---
 
