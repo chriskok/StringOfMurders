@@ -30,6 +30,18 @@ The user can click on people and run functions like length(), charAt() or contai
 
 The game will visibly show the result of the function call as well as update the log at the top left. 
 
+<img src="https://github.com/chriskok/StringOfMurders/blob/master/Screenshots/4.JPG" width = 500>
+
+People with exclamation marks above their heads have quests for you. You can help them change the size, height and color of their bodies through functions that would change strings in that way such as toUpperCase(), concat(), substring(), etc. 
+
+<img src="https://github.com/chriskok/StringOfMurders/blob/master/Screenshots/5.JPG" width = 500>
+
+These quests will give you more information about the murderer ...
+
+<img src="https://github.com/chriskok/StringOfMurders/blob/master/Screenshots/6.JPG" width = 500>
+
+... that will appear above the murderer's shadow figure. 
+
 ---
 
 ## Future Updates
